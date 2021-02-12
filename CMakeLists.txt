@@ -111,10 +111,13 @@ add_install_rpath_support(BIN_DIRS "${CMAKE_INSTALL_FULL_BINDIR}"
                           USE_LINK_PATH)
 
 # Encourage user to specify a build type (e.g. Release, Debug, etc.), otherwise set it to Release.
-if(NOT CMAKE_CONFIGURATION_TYPES)
+get_property(is_multiconfig_generator GLOBAL
+    PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(NOT is_multiconfig_generator)
     if(NOT CMAKE_BUILD_TYPE)
         message(STATUS "Setting build type to 'Release' as none was specified.")
         set_property(CACHE CMAKE_BUILD_TYPE PROPERTY VALUE "Release")
+        set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Release;Debug;RelWithDebInfo;MinSizeRel")
     endif()
 endif()
 
